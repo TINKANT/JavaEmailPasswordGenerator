@@ -27,7 +27,9 @@ public class Email {
 
     // Method for the randomly generated password
         this.password = randomPassword(defaultPasswordLength);
-        System.out.println("Your password is: " + this.password);
+
+    // Get user's alternate e-mail
+        this.alternateEmail = alternateEmailGen();
 
     // Generate email address
         email = username.toLowerCase().replaceAll("\\s","") + "@" + department.toLowerCase() + companyName.toLowerCase() + ".com";
@@ -73,6 +75,13 @@ public class Email {
 
     }
 
+    private String alternateEmailGen() {
+        System.out.print("Input new user's personal address: ");
+        Scanner sc = new Scanner(System.in);
+        String personalAddress = sc.next();
+        return personalAddress;
+    }
+
     // Method for random password
     private String randomPassword(int length) {
         String passwordSet = "abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMONPQRSTUVWXYZ0123456789!@#$";
@@ -88,10 +97,6 @@ public class Email {
         this.defaultMailCapacity = capacity;
    }
 
-   public void setAltEmail(String altMail) {
-        this.alternateEmail = altMail;
-   }
-
    public void changePassword(String password) {
         this.password = password;
    }
@@ -100,6 +105,6 @@ public class Email {
     public String getPassword() { return password; }
 
     public String getInfo() {
-        return "Name: " + username + "\nCompany E-mail: " + email + "\nMailbox Capacity: " + defaultMailCapacity + " GB";
+        return "Name: " + username + "\nCompany E-mail: " + email + "\nMailbox Capacity: " + defaultMailCapacity + " GB" + "\nAlternate E-mail: " + alternateEmail;
     }
 }
