@@ -1,6 +1,16 @@
+/* Known issues:
+
+        - Special characters like Ğ, Ü, Ç, Ö are NOT removed when generating an email, resulting in an invalid address.
+        - Writing two words/names during the "first name" prompt skips the input for last name, presumably because of .nextInt .
+            - FIXED
+                - Using .nextLine instead of .next or .nextInt makes the program properly wait for inputs.
+
+*/
+
 package emailApp;
 
 import java.util.Scanner;
+import java.text.Normalizer;
 
 public class Email {
     private String username;
@@ -32,17 +42,25 @@ public class Email {
         this.alternateEmail = alternateEmailGen();
 
     // Generate email address
+        username = normalizeUsername();
         email = username.toLowerCase().replaceAll("\\s","") + "@" + department.toLowerCase() + companyName.toLowerCase() + ".com";
     }
 
     private String setUsername() {
         System.out.print("Input new user's first name: ");
         Scanner sc = new Scanner(System.in);
-        String userFirstName = sc.next();
+        String userFirstName = sc.nextLine();
         System.out.print("Input new user's last name: ");
-        String userLastName = sc.next();
+        String userLastName = sc.nextLine();
 
         return  (userFirstName + " " + userLastName);
+    }
+
+    private String normalizeUsername () {
+        String normalized = Normalizer.normalize(username, Normalizer.Form.NFD);
+
+        normalized = normalized.replaceAll("[^\\p{ASCII}]","");
+        return normalized;
     }
 
     private String setDepartment(){
